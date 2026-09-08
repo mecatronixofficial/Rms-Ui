@@ -25,7 +25,7 @@ export function BannerCards() {
           {[0, 1].map((copy) => (
             <div key={copy} className="flex gap-2 pr-2" aria-hidden={copy === 1 ? true : undefined}>
               {cards.map(({ src, label, alt, position }) => (
-                <div key={`${copy}-${label}-${src}`} className="w-[128px] overflow-hidden rounded-2xl shadow-[0_12px_30px_rgba(0,0,0,.18)]">
+                <div key={`${copy}-${label}-${src}`} className="w-[128px] overflow-hidden rounded-2xl border border-white/55 shadow-[0_12px_30px_rgba(0,0,0,.18)]">
                   <div className="relative h-40 overflow-hidden rounded-2xl">
                     <Image
                       src={src}
@@ -35,6 +35,10 @@ export function BannerCards() {
                       className="object-cover transition-transform duration-500 hover:scale-110"
                       style={{ objectPosition: position }}
                     />
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-forest-950/85 to-transparent" />
+                    <p className="absolute inset-x-0 bottom-0 px-3 pb-2.5 text-[10px] font-bold uppercase tracking-[.12em] text-white">
+                      {label}
+                    </p>
                   </div>
                 </div>
               ))}

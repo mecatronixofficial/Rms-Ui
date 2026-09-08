@@ -3,7 +3,8 @@
 import { useRef, useState, type CSSProperties, type MouseEvent, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, BadgeCheck, ClipboardList, Gauge, Layers3, MapPin, ScanLine, Settings2, Sparkles } from "lucide-react";
+import { ArrowRight, BadgeCheck, ClipboardList, Gauge, Layers3, MapPin, Phone, Quote, ScanLine, Settings2, Sparkles, UserRound } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
 import { BannerCards } from "./BannerCards";
 import { StatsSection } from "./StatsSection";
 import { CTA } from "./Shared";
@@ -26,7 +27,31 @@ const pathways = [
  * Mouse-tracked 3D tilt wrapper with a moving glare highlight.
  * Used for the pathways cards.
  */
-function TiltCard({ children, className = "" }: { children: ReactNode; className?: string }) {
+function Reveal({ children, className = "" }: { children: ReactNode; className?: string }) {
+  const reduceMotion = useReducedMotion();
+
+  return (
+    <motion.div
+      initial={reduceMotion ? false : { opacity: 0, y: 22 }}
+      whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function TiltCard({
+  children,
+  className = "",
+  intensity = 6,
+}: {
+  children: ReactNode;
+  className?: string;
+  intensity?: number;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const [style, setStyle] = useState<CSSProperties>({});
   const [glare, setGlare] = useState({ x: 50, y: 50, opacity: 0 });
@@ -37,8 +62,8 @@ function TiltCard({ children, className = "" }: { children: ReactNode; className
     const rect = el.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
-    const rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -6;
-    const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 6;
+    const rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -intensity;
+    const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * intensity;
     setStyle({ transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)` });
     setGlare({ x: (x / rect.width) * 100, y: (y / rect.height) * 100, opacity: 0.5 });
   };
@@ -95,6 +120,626 @@ export default function HomeClient() {
 
       <StatsSection totalMachines={totalMachines} diameterOptions={machineRows.length} fabricCount={fabrics.length} />
 
+{/* =====================================================
+          OWNER / DIRECTOR
+          CONTENT LEFT + OWNER IMAGE RIGHT
+      ====================================================== */}
+
+      <section
+  className="
+    container-pad
+    pb-10
+    md:pb-12
+    lg:pb-14
+  "
+>
+  <Reveal>
+    <TiltCard
+      intensity={3}
+      className="
+        relative
+        overflow-hidden
+        rounded-[1.6rem]
+        border
+        border-white/5
+        bg-forest-950
+        text-white
+        shadow-[0_22px_60px_rgba(7,24,17,.16)]
+      "
+    >
+      <div
+        className="
+          grid
+          lg:grid-cols-[1.08fr_.92fr]
+          lg:items-stretch
+        "
+      >
+        {/* =====================================================
+            LEFT — DIRECTOR CONTENT
+        ====================================================== */}
+        <div
+          className="
+            relative
+            flex
+            min-h-[350px]
+            flex-col
+            justify-between
+            overflow-hidden
+            p-5
+
+            sm:p-6
+            md:p-7
+
+            lg:min-h-[400px]
+            lg:p-8
+          "
+        >
+          {/* =====================================================
+              BACKGROUND DECORATION
+          ====================================================== */}
+
+          <div
+            className="
+              pointer-events-none
+              absolute
+              -left-20
+              -top-20
+              size-56
+              rounded-full
+              bg-leaf-300/[.07]
+              blur-3xl
+            "
+          />
+
+          <div
+            className="
+              pointer-events-none
+              absolute
+              -bottom-32
+              right-[-80px]
+              size-[270px]
+              rounded-full
+              border
+              border-white/[.045]
+            "
+          />
+
+          <div
+            className="
+              pointer-events-none
+              absolute
+              -bottom-20
+              right-[-10px]
+              size-[170px]
+              rounded-full
+              border
+              border-leaf-300/[.06]
+            "
+          />
+
+          <Quote
+            size={68}
+            strokeWidth={1}
+            className="
+              pointer-events-none
+              absolute
+              right-6
+              top-5
+              text-white/[.045]
+            "
+          />
+
+          {/* =====================================================
+              TOP CONTENT
+          ====================================================== */}
+
+          <div
+            className="
+              relative
+              z-10
+              [transform:translateZ(28px)]
+            "
+          >
+            {/* LABEL */}
+            <div
+              className="
+                inline-flex
+                items-center
+                gap-2
+                rounded-full
+                border
+                border-white/10
+                bg-white/[.055]
+                px-3
+                py-1.5
+                backdrop-blur-xl
+              "
+            >
+              <UserRound
+                size={12}
+                className="text-leaf-300"
+              />
+
+              <span
+                className="
+                  text-[9px]
+                  font-bold
+                  uppercase
+                  tracking-[.18em]
+                  text-leaf-200
+                "
+              >
+                Managing Director
+              </span>
+            </div>
+
+            {/* HEADING */}
+            <h2
+              className="
+                mt-4
+                max-w-xl
+                font-display
+                text-[27px]
+                font-bold
+                leading-[1.08]
+                tracking-[-.035em]
+                text-white
+
+                sm:text-[30px]
+                md:text-[32px]
+                lg:text-[34px]
+              "
+            >
+              Leadership focused on{" "}
+              <span className="text-leaf-300">
+                practical production.
+              </span>
+            </h2>
+
+            {/* QUOTE */}
+            <blockquote
+              className="
+                mt-4
+                max-w-xl
+                font-display
+                text-[16px]
+                font-semibold
+                leading-[1.5]
+                tracking-[-.015em]
+                text-white/80
+
+                sm:text-[17px]
+                md:text-[18px]
+              "
+            >
+              &ldquo;Our focus is to understand the fabric requirement,
+              choose a suitable machine configuration and keep
+              communication direct throughout the production
+              conversation.&rdquo;
+            </blockquote>
+
+            {/* SMALL ACCENT LINE */}
+            <div
+              className="
+                mt-4
+                h-px
+                w-14
+                bg-leaf-300/55
+              "
+            />
+
+            {/* DESCRIPTION */}
+            <p
+              className="
+                mt-4
+                max-w-lg
+                text-[12px]
+                font-medium
+                leading-[1.65]
+                text-white/55
+              "
+            >
+              Working closely with customers to align fabric expectations,
+              machine configuration and practical production requirements.
+            </p>
+          </div>
+
+          {/* =====================================================
+              BOTTOM DIRECTOR DETAILS
+          ====================================================== */}
+
+          <div
+            className="
+              relative
+              z-10
+              mt-6
+              flex
+              flex-col
+              gap-4
+              border-t
+              border-white/10
+              pt-4
+
+              sm:flex-row
+              sm:items-end
+              sm:justify-between
+
+              [transform:translateZ(26px)]
+            "
+          >
+            {/* NAME */}
+            <div>
+              <p
+                className="
+                  text-[8px]
+                  font-bold
+                  uppercase
+                  tracking-[.19em]
+                  text-leaf-300
+                "
+              >
+                Managing Director
+              </p>
+
+              <h3
+                className="
+                  mt-1.5
+                  font-display
+                  text-[20px]
+                  font-bold
+                  leading-none
+                  text-white
+                "
+              >
+                P. Ramasamy
+              </h3>
+
+              <p
+                className="
+                  mt-1.5
+                  text-[10px]
+                  font-medium
+                  text-white/40
+                "
+              >
+                RMS Textile Mills
+              </p>
+            </div>
+
+            {/* PHONE BUTTON */}
+            <a
+              href="tel:+919843419599"
+              aria-label="Call P. Ramasamy"
+              className="
+                group
+                inline-flex
+                w-fit
+                items-center
+                gap-2.5
+                rounded-full
+                border
+                border-white/10
+                bg-white/[.06]
+                py-1.5
+                pl-3.5
+                pr-1.5
+                backdrop-blur-xl
+
+                transition-all
+                duration-300
+
+                hover:-translate-y-0.5
+                hover:border-white/15
+                hover:bg-white/[.10]
+                hover:shadow-[0_10px_28px_rgba(0,0,0,.15)]
+              "
+            >
+              <span
+                className="
+                  whitespace-nowrap
+                  text-[11px]
+                  font-bold
+                  text-white
+                "
+              >
+                +91 98434 19599
+              </span>
+
+              <span
+                className="
+                  grid
+                  size-8
+                  place-items-center
+                  rounded-full
+                  bg-leaf-300
+                  text-forest-950
+
+                  transition-transform
+                  duration-300
+                  group-hover:scale-105
+                "
+              >
+                <Phone size={13} />
+              </span>
+            </a>
+          </div>
+        </div>
+
+        {/* =====================================================
+            RIGHT — OWNER IMAGE
+        ====================================================== */}
+
+        <div
+  className="
+    group
+    relative
+    min-h-[300px]
+    overflow-hidden
+    bg-[#071811]
+
+    sm:min-h-[330px]
+    lg:min-h-[400px]
+  "
+>
+  {/* =====================================================
+      FIRST IMAGE - DEFAULT
+  ====================================================== */}
+  <Image
+    src="https://res.cloudinary.com/ddpfxvydm/image/upload/v1788785776/WhatsApp_Image_2026-09-07_at_10.57.32_AM_1_xxbjxn.jpg"
+    alt="R. Mohan Prasanth of RMS Textile Mills"
+    fill
+    sizes="
+      (max-width: 1024px) 100vw,
+      45vw
+    "
+    className="
+      object-cover
+      object-center
+
+      opacity-100
+      scale-100
+
+      transition-all
+      duration-700
+      ease-out
+
+      group-hover:opacity-0
+      group-hover:scale-[1.03]
+    "
+  />
+
+  {/* =====================================================
+      SECOND IMAGE - SHOW ON HOVER
+  ====================================================== */}
+  <Image
+    src="https://res.cloudinary.com/ddpfxvydm/image/upload/v1788785776/WhatsApp_Image_2026-09-07_at_10.57.32_AM_d6adqk.jpg"
+    alt="R. Mohan Prasanth at RMS Textile Mills"
+    fill
+    sizes="
+      (max-width: 1024px) 100vw,
+      45vw
+    "
+    className="
+      object-cover
+      object-center
+
+      opacity-0
+      scale-[1.06]
+
+      transition-all
+      duration-700
+      ease-out
+
+      group-hover:opacity-100
+      group-hover:scale-100
+    "
+  />
+
+  {/* LEFT IMAGE FADE */}
+  <div
+    className="
+      pointer-events-none
+      absolute
+      inset-0
+      z-10
+
+      bg-gradient-to-r
+      from-forest-950/35
+      via-transparent
+      to-transparent
+
+      lg:from-forest-950/35
+    "
+  />
+
+  {/* BOTTOM IMAGE FADE */}
+  <div
+    className="
+      pointer-events-none
+      absolute
+      inset-x-0
+      bottom-0
+      z-10
+
+      h-36
+
+      bg-gradient-to-t
+      from-[#071811]/95
+      via-[#071811]/30
+      to-transparent
+    "
+  />
+
+  {/* PREMIUM TOP DARK GRADIENT */}
+  <div
+    className="
+      pointer-events-none
+      absolute
+      inset-x-0
+      top-0
+      z-10
+
+      h-24
+
+      bg-gradient-to-b
+      from-black/25
+      to-transparent
+    "
+  />
+
+  {/* NUMBER */}
+  <span
+    className="
+      pointer-events-none
+      absolute
+      right-4
+      top-2
+      z-20
+
+      font-display
+      text-[70px]
+      font-black
+      leading-none
+      text-white/[.045]
+    "
+  >
+    01
+  </span>
+
+  {/* TOP TAG */}
+  <div
+    className="
+      absolute
+      left-4
+      top-4
+      z-20
+    "
+  >
+    <span
+      className="
+        inline-flex
+        items-center
+        gap-1.5
+
+        rounded-full
+        border
+        border-white/15
+        bg-[#071811]/50
+
+        px-2.5
+        py-1.5
+
+        text-[8px]
+        font-bold
+        uppercase
+        tracking-[.16em]
+        text-white
+
+        backdrop-blur-xl
+      "
+    >
+      <UserRound
+        size={11}
+        className="text-leaf-300"
+      />
+
+      Leadership
+    </span>
+  </div>
+
+  {/* =====================================================
+      BOTTOM PERSON CARD
+  ====================================================== */}
+  <div
+    className="
+      absolute
+      bottom-4
+      left-4
+      right-4
+      z-20
+    "
+  >
+    <div
+      className="
+        max-w-[250px]
+
+        rounded-[1rem]
+        border
+        border-white/10
+        bg-[#071811]/65
+
+        p-3.5
+
+        shadow-[0_16px_40px_rgba(0,0,0,.22)]
+        backdrop-blur-xl
+
+        transition-all
+        duration-500
+
+        group-hover:-translate-y-1
+        group-hover:bg-[#071811]/75
+      "
+    >
+      <div
+        className="
+          mb-2
+          h-px
+          w-8
+          bg-leaf-300/60
+
+          transition-all
+          duration-500
+
+          group-hover:w-12
+        "
+      />
+
+      <p
+        className="
+          text-[8px]
+          font-bold
+          uppercase
+          tracking-[.18em]
+          text-leaf-300
+        "
+      >
+        RMS Management
+      </p>
+
+      <h3
+        className="
+          mt-1
+          font-display
+          text-[17px]
+          font-bold
+          leading-tight
+          text-white
+        "
+      >
+        R. Mohan Prasanth
+      </h3>
+
+      <p
+        className="
+          mt-1
+          text-[9px]
+          font-medium
+          text-white/45
+        "
+      >
+        RMS Textile Mills
+      </p>
+    </div>
+  </div>
+</div>
+      </div>
+    </TiltCard>
+  </Reveal>
+</section>
+
+
+
+
       <section
   id="overview"
   className="container-pad py-8 md:py-10"
@@ -109,8 +754,8 @@ export default function HomeClient() {
       xl:gap-12
     "
   >
-    {/* LEFT CONTENT — STATIC */}
-    <div className="relative">
+    {/* RIGHT CONTENT — STATIC */}
+    <div className="relative order-2">
       <span
         className="
           text-[10px]
@@ -204,10 +849,11 @@ export default function HomeClient() {
       </Link>
     </div>
 
-    {/* RIGHT IMAGE — ONLY THIS CARD HAS ANIMATION */}
+    {/* LEFT IMAGE — ONLY THIS CARD HAS ANIMATION */}
     <div
       className="
         relative
+        order-1
         mx-auto
         w-full
         max-w-[650px]
