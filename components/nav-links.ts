@@ -3,7 +3,6 @@ export const navLinks = [
   ["About", "/about"],
   ["Machines", "/machines"],
   ["Products", "/products"],
-  ["Infrastructure", "/infrastructure"],
   ["Gallery", "/gallery"],
   ["Contact", "/contact"],
 ] as const;
