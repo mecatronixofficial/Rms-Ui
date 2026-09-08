@@ -25,7 +25,7 @@ export const fabrics = [
       "A lightweight circular-knit structure with a smooth face and natural drape, suited to T-shirts, innerwear and other everyday garment programs.",
     applications: ["T-shirts", "Innerwear", "Lightweight apparel"],
     icon: Shirt,
-    tone: "from-teal-950 to-teal-700",
+    tone: "from-leaf-950 to-leaf-700",
   },
   {
     name: "Pattinai",
@@ -34,7 +34,7 @@ export const fabrics = [
       "A developed knit structure created for visual surface interest, giving garment teams an alternative to plain constructions.",
     applications: ["Fashion tops", "Casualwear", "Surface development"],
     icon: Grid3X3,
-    tone: "from-slate-950 to-cyan-800",
+    tone: "from-forest-950 to-leaf-800",
   },
   {
     name: "Air Tex",
@@ -43,7 +43,7 @@ export const fabrics = [
       "A texture-focused circular knit designed to support airflow and a lighter hand feel in warm-weather and active casual applications.",
     applications: ["Summer apparel", "Active casual", "Breathable panels"],
     icon: Waves,
-    tone: "from-cyan-950 to-teal-600",
+    tone: "from-leaf-950 to-leaf-600",
   },
   {
     name: "Honey Comb",
@@ -52,7 +52,7 @@ export const fabrics = [
       "A recognizable textured construction that brings depth and character to polos, casual separates and detail panels.",
     applications: ["Polos", "Casualwear", "Textured panels"],
     icon: CircleDot,
-    tone: "from-stone-900 to-amber-700",
+    tone: "from-forest-900 to-leaf-700",
   },
   {
     name: "Two Thread Fleece",
@@ -61,7 +61,7 @@ export const fabrics = [
       "A comfortable knit with added body, intended for sweatshirts, joggers and season-spanning leisurewear programs.",
     applications: ["Sweatshirts", "Joggers", "Leisurewear"],
     icon: Layers3,
-    tone: "from-slate-950 to-slate-600",
+    tone: "from-forest-950 to-forest-600",
   },
   {
     name: "Lycra Jersey",
@@ -70,7 +70,7 @@ export const fabrics = [
       "A close-fitting stretch knit for styles that need movement and recovery, developed with yarn and construction requirements in view.",
     applications: ["Stretch tops", "Leggings", "Fitted garments"],
     icon: Activity,
-    tone: "from-emerald-950 to-teal-600",
+    tone: "from-leaf-950 to-leaf-600",
   },
 ] as const;
 

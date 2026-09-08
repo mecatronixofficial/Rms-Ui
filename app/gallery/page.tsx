@@ -1,95 +1,371 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowDownRight, ArrowRight, BadgeCheck, Camera, Factory, FileCheck2, Layers3, ScanLine } from "lucide-react";
+import {
+  ArrowRight,
+  Camera,
+  Factory,
+  Layers3,
+  Sparkles,
+} from "lucide-react";
+
 import { CTA } from "@/components/Shared";
-import { fabrics } from "@/components/site-data";
 
 export const metadata: Metadata = {
-  title: "Gallery",
-  description: "Explore RMS Textile Mills company details, circular knitting capability visuals and fabric representations.",
+  title: "Gallery | RMS Textile Mills",
+  description:
+    "Explore RMS Textile Mills circular knitting machinery, yarn preparation, textile production and knitted fabric capabilities.",
 };
 
-export default function Gallery() {
+type GalleryItem = {
+  src: string;
+  title: string;
+  category: string;
+  alt: string;
+  className: string;
+  objectPosition?: string;
+};
+
+const galleryItems: GalleryItem[] = [
+  {
+    src: "https://res.cloudinary.com/ddpfxvydm/image/upload/v1787643046/Screenshot_2026-08-25_124048_bgxa68.png",
+    title: "Circular Knitting",
+    category: "Knitting Machine",
+    alt: "Circular knitting machinery",
+    className:
+      "md:col-span-8 md:row-span-2 min-h-[480px] md:min-h-[620px]",
+  },
+
+  {
+    src: "https://res.cloudinary.com/ddpfxvydm/image/upload/v1788780260/1_zqeqkm.png",
+    title: "Machine Detail",
+    category: "Precision",
+    alt: "Knitting machine close up",
+    className: "md:col-span-4 min-h-[300px]",
+  },
+
+  {
+    src: "https://res.cloudinary.com/ddpfxvydm/image/upload/v1788780259/vv_edjffu.png",
+    title: "Yarn Feeding",
+    category: "Production",
+    alt: "Yarn cones used for textile production",
+    className: "md:col-span-4 min-h-[300px]",
+  },
+
+  {
+    src: "https://res.cloudinary.com/ddpfxvydm/image/upload/v1788780259/Tea_Towel_xtrqlb.png",
+    title: "Production Technology",
+    category: "Machinery",
+    alt: "Textile production machinery",
+    className: "md:col-span-5 min-h-[430px]",
+  },
+
+  {
+    src: "https://res.cloudinary.com/ddpfxvydm/image/upload/v1788780258/close-up-knitting-needles-wool_eaebj6.jpg",
+    title: "Knitting Floor",
+    category: "Facility",
+    alt: "Knitting production facility",
+    className: "md:col-span-7 min-h-[430px]",
+  },
+
+  {
+    src: "https://res.cloudinary.com/ddpfxvydm/image/upload/v1788780240/table-cloth1_sizmpw.jpg",
+    title: "Single Jersey",
+    category: "Knitted Fabric",
+    alt: "White knitted fabric texture",
+    className: "md:col-span-4 min-h-[350px]",
+  },
+
+  {
+    src: "https://res.cloudinary.com/ddpfxvydm/image/upload/v1779964030/31319_njq4rr.jpg",
+    title: "Knitted Texture",
+    category: "Fabric Detail",
+    alt: "Knitted textile texture",
+    className: "md:col-span-4 min-h-[350px]",
+  },
+
+  {
+    src: "https://res.cloudinary.com/ddpfxvydm/image/upload/v1779964027/1946_dtzc2r.jpg",
+    title: "Fabric Collection",
+    category: "Textile",
+    alt: "Collection of textile fabric rolls",
+    className: "md:col-span-4 min-h-[350px]",
+  },
+];
+
+export default function GalleryPage() {
   return (
     <>
-      <section className="fabric-grid relative overflow-hidden border-b border-slate-200 pt-32">
-        <div className="absolute -right-24 top-20 size-80 rounded-full bg-teal-200/40 blur-3xl" />
-        <div className="container-pad relative grid gap-10 py-16 md:py-24 lg:grid-cols-[1.15fr_.85fr] lg:items-end">
-          <div>
-            <span className="inline-flex items-center gap-2 border border-teal-200 bg-white px-3 py-1.5 text-xs font-bold uppercase tracking-[.2em] text-teal-800"><Camera size={14} /> Gallery</span>
-            <h1 className="mt-6 max-w-4xl font-display text-5xl font-bold leading-[.98] tracking-[-.05em] text-slate-950 sm:text-6xl md:text-7xl">Inside the world of <span className="text-teal-700">circular knitting.</span></h1>
-            <p className="mt-6 max-w-2xl text-base leading-8 text-slate-600 md:text-lg">Explore the machinery, fabric surfaces and documented company details behind the RMS knitting division.</p>
-          </div>
-          <div className="border-l-2 border-teal-700 bg-white p-6 shadow-lg shadow-slate-950/[.04]">
-            <div className="flex items-center gap-3"><BadgeCheck className="text-teal-700" /><p className="font-display text-lg font-bold text-slate-950">Clear image context</p></div>
-            <p className="mt-3 text-sm leading-7 text-slate-600">Concept images are labelled as visual representations. The company card is the original supplied RMS reference.</p>
-            <a href="#gallery" className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-teal-800">Explore the gallery <ArrowDownRight size={16} /></a>
+      {/* =========================
+          HERO
+      ========================== */}
+
+      <section className="relative min-h-[380px] overflow-hidden bg-black pt-24 md:min-h-[430px] md:pt-28">
+  {/* Banner Image */}
+  <Image
+    src="https://res.cloudinary.com/ddpfxvydm/image/upload/v1788781107/2148350149_cljqiz.jpg"
+    alt="RMS Textile Mills circular knitting machine"
+    fill
+    priority
+    sizes="100vw"
+    className="object-cover object-center"
+  />
+
+  {/* Light overlay - keeps image clear */}
+  <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/35 to-black/10" />
+
+  {/* Small premium green glow */}
+  <div className="absolute -left-32 top-10 h-72 w-72 rounded-full bg-leaf-500/20 blur-[100px]" />
+
+  {/* Content */}
+  <div className="container-pad relative z-10 flex min-h-[290px] items-end py-10 md:min-h-[320px] md:py-12">
+    <div className="flex w-full flex-col justify-between gap-8 lg:flex-row lg:items-end">
+      <div>
+        {/* Label */}
+        <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/25 px-4 py-2 backdrop-blur-md">
+          <Camera size={14} className="text-leaf-300" />
+
+          <span className="text-[10px] font-bold uppercase tracking-[0.23em] text-white">
+            RMS Textile Mills
+          </span>
+        </div>
+
+        {/* Heading */}
+        <h1 className="mt-5 max-w-3xl font-display text-4xl font-bold leading-[0.95] tracking-[-0.045em] text-white sm:text-5xl md:text-6xl">
+          Inside our world
+          <span className="block text-leaf-300">
+            of knitting.
+          </span>
+        </h1>
+
+        {/* Small description */}
+        <p className="mt-4 max-w-lg text-sm leading-6 text-white/75 md:text-base">
+          Machinery. Yarn. Fabric. Precision.
+        </p>
+      </div>
+
+      {/* Button */}
+      <a
+        href="#gallery"
+        className="group inline-flex w-fit items-center gap-4 border-b border-white/40 pb-2 text-sm font-bold text-white transition hover:border-leaf-300 hover:text-leaf-300"
+      >
+        Explore gallery
+
+        <ArrowRight
+          size={17}
+          className="transition-transform duration-300 group-hover:translate-x-1"
+        />
+      </a>
+    </div>
+  </div>
+</section>
+
+      {/* =========================
+          SMALL INFORMATION BAR
+      ========================== */}
+
+     <section className="border-y border-forest-950/10 bg-white">
+  <div className="container-pad">
+    <div className="grid overflow-hidden rounded-2xl border border-forest-950/10 bg-white shadow-sm sm:grid-cols-3">
+      
+      {/* Facility */}
+      <div className="group flex items-center gap-3 border-b border-forest-950/10 px-4 py-3 transition hover:bg-leaf-50 sm:border-b-0 sm:border-r sm:px-5">
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-leaf-50 text-leaf-700">
+          <Factory size={16} strokeWidth={1.8} />
+        </div>
+
+        <div>
+          <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-forest-400">
+            Facility
+          </p>
+
+          <p className="mt-0.5 font-display text-xs font-bold text-forest-950 sm:text-sm">
+            Knitting Machinery
+          </p>
+        </div>
+      </div>
+
+      {/* Capability */}
+      <div className="group flex items-center gap-3 border-b border-forest-950/10 px-4 py-3 transition hover:bg-leaf-50 sm:border-b-0 sm:border-r sm:px-5">
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-leaf-50 text-leaf-700">
+          <Layers3 size={16} strokeWidth={1.8} />
+        </div>
+
+        <div>
+          <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-forest-400">
+            Capability
+          </p>
+
+          <p className="mt-0.5 font-display text-xs font-bold text-forest-950 sm:text-sm">
+            Knitted Fabrics
+          </p>
+        </div>
+      </div>
+
+      {/* Focus */}
+      <div className="group flex items-center gap-3 px-4 py-3 transition hover:bg-leaf-50 sm:px-5">
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-leaf-50 text-leaf-700">
+          <Sparkles size={16} strokeWidth={1.8} />
+        </div>
+
+        <div>
+          <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-forest-400">
+            Focus
+          </p>
+
+          <p className="mt-0.5 font-display text-xs font-bold text-forest-950 sm:text-sm">
+            Quality & Precision
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+      {/* =========================
+          GALLERY
+      ========================== */}
+
+      <section
+        id="gallery"
+        className="bg-[#f7f8f5] py-8 md:py-12 lg:py-16"
+      >
+        <div className="container-pad">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-12 md:gap-4">
+            {galleryItems.map((item, index) => (
+              <figure
+                key={`${item.title}-${index}`}
+                className={`group relative overflow-hidden bg-forest-950 ${item.className}`}
+              >
+                <Image
+                  src={item.src}
+                  alt={item.alt}
+                  fill
+                  sizes="
+                    (max-width: 768px) 100vw,
+                    (max-width: 1200px) 70vw,
+                    60vw
+                  "
+                  className={`object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.06] ${
+                    item.objectPosition ?? ""
+                  }`}
+                />
+
+                {/* premium dark gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#061a14]/90 via-[#061a14]/5 to-transparent" />
+
+                {/* subtle border */}
+                <div className="pointer-events-none absolute inset-3 border border-white/0 transition-all duration-500 group-hover:inset-4 group-hover:border-white/20" />
+
+                {/* number */}
+                <span className="absolute right-5 top-5 font-display text-4xl font-bold text-white/20">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+
+                {/* title */}
+                <figcaption className="absolute inset-x-0 bottom-0 flex items-end justify-between p-5 sm:p-7">
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-leaf-300">
+                      {item.category}
+                    </p>
+
+                    <h2 className="mt-2 font-display text-2xl font-bold tracking-tight text-white md:text-3xl">
+                      {item.title}
+                    </h2>
+                  </div>
+
+                  <div className="flex h-11 w-11 translate-y-3 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white opacity-0 backdrop-blur-md transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+                    <ArrowRight size={17} />
+                  </div>
+                </figcaption>
+              </figure>
+            ))}
           </div>
         </div>
       </section>
 
-      <section id="gallery" className="container-pad section-pad">
-        <div className="grid gap-5 lg:grid-cols-12">
-          <figure className="group relative min-h-[520px] overflow-hidden bg-slate-950 lg:col-span-8">
-            <Image src="/knitting-floor-hero.webp" alt="Visual representation of a circular knitting production floor" fill priority sizes="(max-width: 1024px) 100vw, 67vw" className="object-cover transition duration-700 group-hover:scale-[1.025]" />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/5 to-transparent" />
-            <figcaption className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-6 p-6 text-white sm:p-8">
-              <div><span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[.18em] text-teal-300"><Factory size={14} /> Visual representation</span><h2 className="mt-3 font-display text-3xl font-bold sm:text-4xl">The knitting floor</h2><p className="mt-2 max-w-lg text-sm leading-6 text-slate-300">A representation of an organized circular knitting production environment.</p></div>
-              <span className="hidden font-display text-6xl font-bold text-white/15 sm:block">01</span>
-            </figcaption>
-          </figure>
+      {/* =========================
+          LARGE IMAGE SECTION
+      ========================== */}
 
-          <div className="grid gap-5 sm:grid-cols-2 lg:col-span-4 lg:grid-cols-1">
-            <figure className="group relative min-h-[250px] overflow-hidden bg-slate-950">
-              <Image src="/knitting-floor-hero.webp" alt="Close-up visual representation of a circular knitting machine" fill sizes="(max-width: 1024px) 50vw, 33vw" className="object-cover object-right transition duration-700 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent" />
-              <figcaption className="absolute bottom-0 p-6 text-white"><span className="text-xs font-bold uppercase tracking-[.16em] text-teal-300">Machine detail</span><h2 className="mt-2 font-display text-2xl font-bold">Feeder ring &amp; yarn path</h2></figcaption>
-            </figure>
-            <div className="flex min-h-[250px] flex-col justify-between bg-teal-700 p-7 text-white">
-              <div className="flex items-center justify-between"><ScanLine /><span className="font-display text-5xl font-bold text-white/15">02</span></div>
-              <div><p className="text-xs font-bold uppercase tracking-[.18em] text-teal-100">Production focus</p><h2 className="mt-2 font-display text-2xl font-bold">Setup, monitor, review.</h2><p className="mt-3 text-sm leading-6 text-teal-50">The working sequence keeps fabric construction and machine configuration in view.</p></div>
+      <section className="bg-white py-16 md:py-24">
+        <div className="container-pad">
+          <div className="grid overflow-hidden bg-forest-950 lg:grid-cols-[1.35fr_.65fr]">
+            <div className="relative min-h-[450px] md:min-h-[600px]">
+              <Image
+                src="https://res.cloudinary.com/ddpfxvydm/image/upload/v1779964027/5610_vh9lp0.jpg"
+                alt="Circular knitting machinery"
+                fill
+                sizes="(max-width: 1024px) 100vw, 70vw"
+                className="object-cover"
+              />
+
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent to-forest-950/20" />
+            </div>
+
+            <div className="flex flex-col justify-center p-8 text-white sm:p-10 lg:p-14">
+              <span className="text-[10px] font-bold uppercase tracking-[0.23em] text-leaf-300">
+                RMS Knitting
+              </span>
+
+              <h2 className="mt-5 font-display text-4xl font-bold leading-tight tracking-tight md:text-5xl">
+                Technology behind every knit.
+              </h2>
+
+              <p className="mt-5 max-w-md text-sm leading-7 text-forest-300">
+                Explore our knitting capability and discuss machine,
+                diameter, gauge, GSM and fabric requirements with the RMS
+                Textile Mills team.
+              </p>
+
+              <Link
+                href="/products"
+                className="group mt-8 inline-flex w-fit items-center gap-3 border-b border-leaf-400 pb-2 text-sm font-bold text-white"
+              >
+                Explore Fabrics
+
+                <ArrowRight
+                  size={17}
+                  className="transition-transform group-hover:translate-x-1"
+                />
+              </Link>
             </div>
           </div>
         </div>
-
-        <div className="mt-5 grid overflow-hidden border border-slate-200 bg-white lg:grid-cols-[1.15fr_.85fr]">
-          <figure className="relative min-h-[420px] overflow-hidden">
-            <Image src="/fabric-swatches.webp" alt="Visual representation of assorted knitted fabric structures" fill sizes="(max-width: 1024px) 100vw, 58vw" className="object-cover" />
-            <figcaption className="absolute bottom-5 left-5 bg-slate-950 px-4 py-2 text-xs font-bold uppercase tracking-[.16em] text-teal-300"><Layers3 className="mr-2 inline" size={15} /> Visual representation</figcaption>
-          </figure>
-          <div className="flex flex-col justify-center p-7 sm:p-10">
-            <span className="text-xs font-bold uppercase tracking-[.18em] text-teal-700">Fabric capability</span>
-            <h2 className="mt-4 font-display text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">Texture you can see. Requirements we can discuss.</h2>
-            <p className="mt-4 text-sm leading-7 text-slate-600">The image represents the variety of surfaces possible in circular knits. Confirm yarn, GSM, hand feel and final construction with the RMS team.</p>
-            <div className="mt-7 grid grid-cols-2 gap-x-4 gap-y-3 border-t border-slate-200 pt-6">{fabrics.map((fabric, index) => <div key={fabric.name} className="flex items-center gap-2 text-sm font-semibold text-slate-700"><span className="font-display text-xs font-bold text-teal-700">0{index + 1}</span>{fabric.name}</div>)}</div>
-            <Link href="/products" className="mt-7 inline-flex items-center gap-2 text-sm font-bold text-teal-800">Explore fabric capabilities <ArrowRight size={16} /></Link>
-          </div>
-        </div>
       </section>
 
-      <section className="bg-slate-950 py-20 text-white md:py-24">
-        <div className="container-pad grid items-center gap-12 lg:grid-cols-[.9fr_1.1fr]">
-          <div>
-            <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[.2em] text-teal-300"><FileCheck2 size={15} /> Original reference</span>
-            <h2 className="mt-5 font-display text-4xl font-bold tracking-tight md:text-5xl">Company and machine details, documented.</h2>
-            <p className="mt-5 max-w-xl leading-8 text-slate-400">The supplied RMS company card records the management contacts, Tiruppur address, GSTIN, fabric list and complete diameter-to-feeder machine configuration used throughout this website.</p>
-            <div className="mt-7 flex flex-wrap gap-3 text-xs font-bold"><span className="border border-white/10 px-3 py-2">10 machines</span><span className="border border-white/10 px-3 py-2">24 GG</span><span className="border border-white/10 px-3 py-2">26-40 diameter</span></div>
-          </div>
-          <figure className="relative min-h-[600px] overflow-hidden bg-white">
-            <Image src="/company-details.jpg" alt="Original RMS Textile Mills company and machine details card" fill sizes="(max-width: 1024px) 100vw, 55vw" className="object-contain p-4 sm:p-8" />
-            <figcaption className="absolute bottom-4 left-4 bg-teal-700 px-4 py-2 text-xs font-bold uppercase tracking-[.16em] text-white">Supplied RMS company card</figcaption>
-          </figure>
-        </div>
-      </section>
+      {/* =========================
+          CONTACT STRIP
+      ========================== */}
 
-      <section className="container-pad pt-20 md:pt-24">
-        <div className="grid bg-teal-50 lg:grid-cols-[1fr_auto] lg:items-center">
-          <div className="p-7 sm:p-10"><Camera className="text-teal-700" /><h2 className="mt-5 font-display text-3xl font-bold text-slate-950">Want to discuss the facility or a fabric brief?</h2><p className="mt-3 max-w-2xl leading-7 text-slate-600">Contact the management team to discuss your requirement and confirm mill-visit availability.</p></div>
-          <Link href="/contact" className="flex h-full min-h-28 items-center justify-between gap-8 bg-teal-700 px-7 text-lg font-bold text-white transition hover:bg-slate-950 sm:px-10">Contact RMS <ArrowRight /></Link>
-        </div>
-      </section>
+   <section className="bg-[#eef3eb]">
+  <div className="container-pad py-8 md:py-10">
+    <div className="flex flex-col gap-5 rounded-2xl border border-forest-950/10 bg-white/70 px-5 py-5 shadow-sm backdrop-blur-sm sm:px-6 md:flex-row md:items-center md:justify-between md:py-6">
+      
+      <div>
+        <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-leaf-700">
+          Work with RMS
+        </span>
 
+        <h2 className="mt-2 max-w-xl font-display text-2xl font-bold tracking-tight text-forest-950 sm:text-3xl md:text-[34px]">
+          Have a knitted fabric requirement?
+        </h2>
+      </div>
+
+      <Link
+        href="/contact"
+        className="group inline-flex w-fit items-center gap-3 rounded-xl bg-leaf-700 px-5 py-3 text-xs font-bold text-white transition hover:bg-forest-950"
+      >
+        Contact RMS
+
+        <ArrowRight
+          size={16}
+          className="transition-transform duration-300 group-hover:translate-x-1"
+        />
+      </Link>
+    </div>
+  </div>
+</section>
       <CTA />
     </>
   );

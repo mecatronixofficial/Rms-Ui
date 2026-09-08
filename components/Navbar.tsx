@@ -1,101 +1,685 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { ArrowUpRight, MapPin, Menu, Phone, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { ArrowUpRight, Menu, Phone, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { navLinks } from "./nav-links";
 
 export { navLinks };
 
 export function Navbar() {
-  const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
-  useEffect(() => setOpen(false), [pathname]);
-  const isActive = (href: string) => href === "/" ? pathname === "/" : pathname.startsWith(href);
+  const [open, setOpen] = useState(false);
+
+  // Controls navbar hide/show
+  const [hideNavbar, setHideNavbar] = useState(false);
+
+  // Store previous scroll position without causing rerenders
+  const lastScrollY = useRef(0);
+
+  /* ========================================
+     CLOSE MOBILE MENU ON ROUTE CHANGE
+  ======================================== */
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  /* ========================================
+     HIDE ON SCROLL DOWN
+     SHOW ON SCROLL UP
+  ======================================== */
+  useEffect(() => {
+    let frame = 0;
+
+    const handleScroll = () => {
+      if (frame) return;
+
+      frame = window.requestAnimationFrame(() => {
+        const currentScrollY = window.scrollY;
+        const previousScrollY = lastScrollY.current;
+
+        // Always show navbar near top of page
+        if (currentScrollY <= 50) {
+          setHideNavbar(false);
+        } else {
+          const difference = currentScrollY - previousScrollY;
+
+          // Ignore tiny movements to prevent navbar flickering
+          if (Math.abs(difference) >= 6) {
+            if (difference > 0) {
+              // Scrolling DOWN
+              setHideNavbar(true);
+            } else {
+              // Scrolling UP
+              setHideNavbar(false);
+            }
+          }
+        }
+
+        lastScrollY.current = currentScrollY;
+        frame = 0;
+      });
+    };
+
+    lastScrollY.current = window.scrollY;
+
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+
+      if (frame) {
+        window.cancelAnimationFrame(frame);
+      }
+    };
+  }, []);
+
+  /* ========================================
+     KEEP NAVBAR VISIBLE WHEN MOBILE
+     MENU IS OPEN
+  ======================================== */
+  useEffect(() => {
+    if (open) {
+      setHideNavbar(false);
+    }
+  }, [open]);
+
+  /* ========================================
+     ESC KEY CLOSE MOBILE MENU
+  ======================================== */
+  useEffect(() => {
+    if (!open) return;
+
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+
+        document
+          .getElementById("navigation-toggle")
+          ?.focus();
+      }
+    };
+
+    window.addEventListener("keydown", handleKey);
+
+    return () => {
+      window.removeEventListener("keydown", handleKey);
+    };
+  }, [open]);
+
+  /* ========================================
+     ACTIVE NAV ITEM
+  ======================================== */
+  const isActive = (href: string) =>
+    href === "/"
+      ? pathname === "/"
+      : pathname.startsWith(href);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-slate-200 bg-white/95 shadow-[0_8px_30px_rgba(15,23,42,.06)] backdrop-blur-xl">
-      <div className="bg-slate-950 text-white">
-        <div className="container-pad flex h-8 items-center justify-between text-[11px] font-semibold tracking-wide">
-          <p className="flex items-center gap-2 text-slate-300">
-            <MapPin size={12} className="text-teal-300" />
-            <span className="hidden sm:inline">Karaipudur, Tiruppur — 641605</span>
-            <span className="sm:hidden">Tiruppur, Tamil Nadu</span>
-          </p>
-          <a href="tel:+919843419599" className="flex items-center gap-2 text-teal-200 transition hover:text-white">
-            <Phone size={12} /> +91 98434 19599
-          </a>
-        </div>
-      </div>
+    <header
+      className={`
+        fixed
+        inset-x-0
+        top-0
+        z-50
+        bg-transparent
 
-      <div className="container-pad flex h-[72px] items-center justify-between">
-        <Link href="/" className="group flex items-center gap-3" aria-label="RMS Textile Mills home">
-          <div className="grid size-11 place-items-center bg-teal-700 font-display text-sm font-bold tracking-tight text-white transition group-hover:bg-slate-950">
-            RMS
-          </div>
-          <div>
-            <div className="font-display text-base font-bold leading-none tracking-tight text-slate-950">RMS Textile Mills</div>
-            <div className="mt-1.5 hidden text-[9px] font-bold uppercase tracking-[.22em] text-teal-700 sm:block">Imported Knitting Division</div>
-          </div>
-        </Link>
+        transform-gpu
+        transition-transform
+        duration-300
+        ease-out
 
-        <nav className="hidden h-full items-center gap-6 lg:flex" aria-label="Main navigation">
-          {navLinks.map(([label, href]) => (
-            <Link
-              key={href}
-              href={href}
-              aria-current={isActive(href) ? "page" : undefined}
-              className={`relative flex h-full items-center text-sm font-semibold transition after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:origin-left after:bg-teal-700 after:transition-transform ${
-                isActive(href)
-                  ? "text-slate-950 after:scale-x-100"
-                  : "text-slate-500 after:scale-x-0 hover:text-slate-950 hover:after:scale-x-100"
-              }`}
-            >
-              {label}
-            </Link>
-          ))}
-        </nav>
+        ${
+          hideNavbar && !open
+            ? "pointer-events-none -translate-y-full"
+            : "pointer-events-auto translate-y-0"
+        }
+      `}
+    >
+      <div className="relative mx-auto max-w-[1500px]">
 
-        <Link href="/contact" className="hidden items-center gap-2 bg-slate-950 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-teal-700 md:flex">
-          Get a quote <ArrowUpRight size={15} />
-        </Link>
-
-        <button
-          className="grid size-11 place-items-center border border-slate-200 text-slate-950 transition hover:border-teal-700 hover:text-teal-700 lg:hidden"
-          aria-label="Toggle menu"
-          aria-expanded={open}
-          aria-controls="mobile-navigation"
-          onClick={() => setOpen(!open)}
+        <div
+          className="
+            relative
+            flex
+            h-[105px]
+            items-center
+            justify-between
+            px-4
+            sm:px-6
+            xl:px-8
+          "
         >
-          {open ? <X size={22} /> : <Menu size={22} />}
-        </button>
-      </div>
+          {/* ========================================
+              LEFT LOGO + TITLE
+          ======================================== */}
+          <Link
+            href="/"
+            aria-label="RMS Textile Mills home"
+            onClick={() => setOpen(false)}
+            className="
+              group
+              relative
+              z-20
+              flex
+              shrink-0
+              items-center
+              gap-3
+              text-white
+            "
+          >
+            {/* LOGO */}
+            <span
+              className="
+                relative
+                size-[66px]
+                shrink-0
+                overflow-hidden
+                rounded-full
+                border
+                border-white
+                bg-white
+                p-1
 
-      {open && (
-        <div id="mobile-navigation" className="border-t border-slate-200 bg-white lg:hidden">
-          <nav className="container-pad grid grid-cols-2 gap-px bg-slate-200 py-px" aria-label="Mobile navigation">
-            {navLinks.map(([label, href]) => (
-              <Link
-                key={href}
-                href={href}
-                aria-current={isActive(href) ? "page" : undefined}
-                className={`bg-white px-4 py-3.5 text-sm font-semibold transition ${isActive(href) ? "text-teal-700" : "text-slate-600 hover:text-slate-950"}`}
+                shadow-[0_10px_35px_rgba(0,0,0,.25)]
+
+                transition-all
+                duration-300
+
+                sm:size-[70px]
+                xl:size-[74px]
+
+                group-hover:-translate-y-0.5
+                group-hover:scale-[1.03]
+              "
+            >
+              <Image
+                src="https://res.cloudinary.com/ddpfxvydm/image/upload/v1788844795/RMS3_vsgfnw.png"
+                alt="RMS Textile Mills logo"
+                fill
+                priority
+                sizes="74px"
+                className="object-contain p-0.5"
+              />
+            </span>
+
+            {/* TITLE */}
+            <div
+              className="
+                hidden
+                min-w-[150px]
+                border-l-[3px]
+                border-white
+                pl-4
+                sm:block
+              "
+            >
+              <h2
+                className="
+                  whitespace-nowrap
+                  font-serif
+                  text-[25px]
+                  font-extrabold
+                  leading-none
+                  tracking-[-0.03em]
+                  text-white
+
+                  xl:text-[19px]
+                  2xl:text-[20px]
+                "
               >
-                <span className="flex items-center justify-between">{label}{isActive(href) && <span className="size-1.5 rounded-full bg-teal-600" />}</span>
-              </Link>
-            ))}
-          </nav>
-          <div className="container-pad flex gap-3 py-3">
-            <a href="tel:+919843419599" className="flex flex-1 items-center justify-center gap-2 border border-slate-300 px-4 py-3 text-sm font-bold text-slate-800"><Phone size={15} /> Call now</a>
-            <Link href="/contact" className="flex flex-1 items-center justify-center gap-2 bg-teal-700 px-4 py-3 text-sm font-bold text-white">Get a quote <ArrowUpRight size={15} /></Link>
+                RMS Textile
+              </h2>
+
+              <p
+                className="
+                  mt-2
+                  whitespace-nowrap
+                  text-[12px]
+                  font-semibold
+                  uppercase
+                  tracking-[0.18em]
+                  text-white/80
+
+                  xl:text-[9px]
+                "
+              >
+                Imported Knitting Division
+              </p>
+            </div>
+          </Link>
+
+          {/* ========================================
+              CENTER NAVIGATION
+          ======================================== */}
+          <div
+            className="
+              refined-nav-panel
+              absolute
+              left-1/2
+              top-0
+              z-10
+              hidden
+              -translate-x-1/2
+              px-8
+              pb-3
+              pt-2
+              lg:block
+            "
+          >
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              className="refined-nav-rim"
+              viewBox="0 0 100 100"
+              preserveAspectRatio="none"
+            >
+              <polygon
+                points="
+                  0,0
+                  100,0
+                  98.8,2
+                  97.9,8
+                  97.2,19
+                  94.7,82
+                  94,93
+                  93.1,98
+                  92,100
+                  8,100
+                  6.9,98
+                  6,93
+                  5.3,82
+                  2.8,19
+                  2.1,8
+                  1.2,2
+                "
+                fill="none"
+                stroke="white"
+                strokeWidth="1.5"
+                vectorEffect="non-scaling-stroke"
+                strokeLinejoin="round"
+              />
+            </svg>
+
+            <nav
+              aria-label="Main navigation"
+              className="
+                refined-nav-track
+                relative
+                flex
+                items-center
+                gap-0.5
+                rounded-full
+                p-1
+              "
+            >
+              {navLinks.map(([label, href]) => (
+                <Link
+                  key={href}
+                  href={href}
+                  aria-current={
+                    isActive(href)
+                      ? "page"
+                      : undefined
+                  }
+                  className="
+                    refined-nav-link
+                    relative
+                    whitespace-nowrap
+                    rounded-full
+                    px-3.5
+                    py-2.5
+                    text-xs
+                    font-semibold
+                    xl:px-4
+                  "
+                >
+                  {label}
+                </Link>
+              ))}
+            </nav>
           </div>
+
+          {/* ========================================
+              RIGHT BUTTONS
+          ======================================== */}
+          <div
+            className="
+              relative
+              z-20
+              flex
+              shrink-0
+              items-center
+              gap-2
+              sm:gap-3
+            "
+          >
+            {/* PHONE */}
+            <a
+              href="tel:+919843419599"
+              aria-label="Call RMS Textile Mills"
+              className="
+                hidden
+                size-12
+                items-center
+                justify-center
+                rounded-full
+                border
+                border-white/70
+                bg-white/90
+                text-forest-700
+
+                shadow-lg
+                shadow-forest-950/10
+                backdrop-blur-xl
+
+                transition-all
+                duration-300
+
+                hover:-translate-y-0.5
+                hover:bg-white
+
+                sm:flex
+                lg:hidden
+                xl:flex
+              "
+            >
+              <Phone size={16} />
+            </a>
+
+            {/* GET QUOTE */}
+            <Link
+              href="/contact"
+              className="
+                refined-nav-quote
+                hidden
+                h-12
+                items-center
+                gap-3
+                whitespace-nowrap
+                rounded-full
+                py-0
+                pl-5
+                pr-2
+                text-xs
+                font-semibold
+
+                transition-all
+                duration-300
+
+                hover:-translate-y-0.5
+
+                sm:flex
+              "
+            >
+              Get a quote
+
+              <span
+                className="
+                  grid
+                  size-8
+                  place-items-center
+                  rounded-full
+                  bg-white/15
+                "
+              >
+                <ArrowUpRight size={16} />
+              </span>
+            </Link>
+          </div>
+
+          {/* ========================================
+              MOBILE MENU BUTTON
+          ======================================== */}
+          <button
+            id="navigation-toggle"
+            type="button"
+            onClick={() =>
+              setOpen((previous) => !previous)
+            }
+            aria-label={
+              open
+                ? "Close navigation"
+                : "Open navigation"
+            }
+            aria-expanded={open}
+            aria-controls="mobile-navigation"
+            className="
+              relative
+              z-30
+              ml-2
+              grid
+              size-12
+              shrink-0
+              place-items-center
+              rounded-full
+              border
+              border-white/70
+              bg-white/95
+              text-forest-950
+              shadow-lg
+
+              transition-colors
+
+              hover:bg-forest-100
+
+              lg:hidden
+            "
+          >
+            {open ? (
+              <X size={20} />
+            ) : (
+              <Menu size={20} />
+            )}
+          </button>
         </div>
-      )}
+
+        {/* ========================================
+            MOBILE NAVIGATION
+        ======================================== */}
+        {open && (
+          <div
+            id="mobile-navigation"
+            className="
+              absolute
+              left-4
+              right-4
+              top-[96px]
+              z-50
+
+              max-h-[calc(100dvh-110px)]
+              overflow-y-auto
+
+              rounded-[24px]
+              border
+              border-white/80
+              bg-white/90
+              p-3
+
+              shadow-[0_20px_60px_#12200e26]
+              backdrop-blur-2xl
+
+              lg:hidden
+            "
+          >
+            {/* MOBILE BRAND */}
+            <div
+              className="
+                mb-3
+                flex
+                items-center
+                gap-3
+                border-b
+                border-forest-200/70
+                px-2
+                pb-3
+              "
+            >
+              <div
+                className="
+                  relative
+                  size-[62px]
+                  shrink-0
+                  overflow-hidden
+                  rounded-full
+                  border
+                  border-forest-100
+                  bg-white
+                  p-1
+                  shadow-md
+                "
+              >
+                <Image
+                  src="https://res.cloudinary.com/ddpfxvydm/image/upload/v1788844795/RMS3_vsgfnw.png"
+                  alt="RMS Textile logo"
+                  fill
+                  sizes="62px"
+                  className="object-contain"
+                />
+              </div>
+
+              <div>
+                <div
+                  className="
+                    font-display
+                    text-[25px]
+                    font-semibold
+                    leading-tight
+                    text-forest-950
+                  "
+                >
+                  RMS Textile
+                </div>
+
+                <div
+                  className="
+                    mt-1.5
+                    text-[8px]
+                    font-semibold
+                    uppercase
+                    tracking-[0.18em]
+                    text-forest-600/70
+                  "
+                >
+                  Imported Knitting Division
+                </div>
+              </div>
+            </div>
+
+            {/* MOBILE LINKS */}
+            <nav
+              aria-label="Mobile navigation"
+              className="grid gap-1"
+            >
+              {navLinks.map(([label, href]) => (
+                <Link
+                  key={href}
+                  href={href}
+                  onClick={() => setOpen(false)}
+                  aria-current={
+                    isActive(href)
+                      ? "page"
+                      : undefined
+                  }
+                  className={`
+                    flex
+                    items-center
+                    justify-between
+                    rounded-xl
+                    px-4
+                    py-3
+                    text-sm
+                    font-semibold
+                    transition-colors
+
+                    ${
+                      isActive(href)
+                        ? "bg-forest-950 text-white"
+                        : "text-forest-600 hover:bg-forest-100"
+                    }
+                  `}
+                >
+                  {label}
+
+                  <ArrowUpRight
+                    size={16}
+                    className={
+                      isActive(href)
+                        ? "text-leaf-200"
+                        : "opacity-40"
+                    }
+                  />
+                </Link>
+              ))}
+            </nav>
+
+            {/* MOBILE ACTIONS */}
+            <div
+              className="
+                mt-3
+                grid
+                grid-cols-2
+                gap-2
+                border-t
+                border-forest-200/70
+                pt-3
+              "
+            >
+              <a
+                href="tel:+919843419599"
+                className="
+                  flex
+                  items-center
+                  justify-center
+                  gap-2
+                  rounded-xl
+                  bg-forest-100
+                  px-4
+                  py-3.5
+                  text-xs
+                  font-semibold
+                  text-forest-950
+                "
+              >
+                <Phone size={14} />
+
+                Call now
+              </a>
+
+              <Link
+                href="/contact"
+                onClick={() => setOpen(false)}
+                className="
+                  flex
+                  items-center
+                  justify-center
+                  gap-2
+                  rounded-xl
+                  bg-forest-950
+                  px-4
+                  py-3.5
+                  text-xs
+                  font-semibold
+                  text-white
+                "
+              >
+                Get a quote
+
+                <ArrowUpRight size={15} />
+              </Link>
+            </div>
+          </div>
+        )}
+      </div>
     </header>
   );
 }
 
 export const Header = Navbar;
+
 export default Navbar;

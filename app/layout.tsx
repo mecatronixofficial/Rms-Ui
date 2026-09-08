@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Manrope, Space_Grotesk } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components/Navbar";
+import Navbar from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { FloatingActions } from "@/components/FloatingActions";
 import { siteUrl } from "@/lib/site";
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     default: "RMS Textile Mills | Circular Knitting Division, Tiruppur",
     template: "%s | RMS Textile Mills",
   },
-  description: "RMS Textile Mills, Tiruppur — an imported circular knitting division with Pailung machines for Single Jersey, Air Tex, Honey Comb, Two Thread Fleece and Lycra fabrics.",
+  description: "RMS Textile Mills, Tiruppur â€” an imported circular knitting division with Pailung machines for Single Jersey, Air Tex, Honey Comb, Two Thread Fleece and Lycra fabrics.",
   keywords: ["Knitting Mills Tiruppur", "Circular Knitting", "Pailung Knitting Machines", "Single Jersey Fabric", "Textile Mills Tiruppur", "Lycra Fabric"],
   openGraph: {
     title: "RMS Textile Mills",
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#0f172a",
+  themeColor: "#192a0f",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
