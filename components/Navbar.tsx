@@ -177,7 +177,7 @@ export function Navbar() {
             <span
               className="
                 relative
-                size-[66px]
+                size-[60px]
                 shrink-0
                 overflow-hidden
                 rounded-full
@@ -222,15 +222,16 @@ export function Navbar() {
               <h2
                 className="
                   whitespace-nowrap
-                  font-serif
-                  text-[25px]
-                  font-extrabold
-                  leading-none
-                  tracking-[-0.03em]
+                  font-display
+                  text-[23px]
+                  font-black
+                  leading-[0.92]
+                  tracking-[-0.055em]
                   text-white
+                  [text-shadow:0_3px_18px_rgba(0,0,0,.38)]
 
-                  xl:text-[19px]
-                  2xl:text-[20px]
+                  xl:text-[20px]
+                  2xl:text-[22px]
                 "
               >
                 RMS Textile
@@ -238,13 +239,13 @@ export function Navbar() {
 
               <p
                 className="
-                  mt-2
+                  mt-1.5
                   whitespace-nowrap
-                  text-[12px]
-                  font-semibold
+                  text-[10px]
+                  font-bold
                   uppercase
-                  tracking-[0.18em]
-                  text-white/80
+                  tracking-[0.22em]
+                  text-white/75
 
                   xl:text-[9px]
                 "

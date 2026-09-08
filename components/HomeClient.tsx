@@ -95,28 +95,203 @@ export default function HomeClient() {
 
       <StatsSection totalMachines={totalMachines} diameterOptions={machineRows.length} fabricCount={fabrics.length} />
 
-      <section id="overview" className="container-pad py-8 md:py-10">
-        <div className="relative [perspective:1400px]">
-          <div className="absolute inset-x-5 -bottom-3 top-5 rounded-[1.8rem] bg-leaf-200/70 shadow-[0_24px_55px_rgba(16,55,37,.12)]" />
-          <TiltCard className="group overflow-hidden rounded-[1.8rem] border border-white/90 bg-gradient-to-br from-white via-[#fbfdf9] to-[#eaf3e6] shadow-[0_28px_80px_rgba(15,50,34,.16)] [transform-style:preserve-3d]">
-            <div className="grid items-stretch lg:grid-cols-[.92fr_1.08fr]">
-              <div className="relative flex flex-col justify-center p-5 sm:p-6 lg:p-7 [transform:translateZ(26px)]">
-                <span className="pointer-events-none absolute -left-20 -top-20 size-52 rounded-full bg-leaf-200/45 blur-3xl" />
-                <span className="relative text-[10px] font-bold uppercase tracking-[.22em] text-leaf-700">RMS Textile Mills</span>
-                <h2 className="relative mt-2.5 font-display text-3xl font-bold leading-tight tracking-[-.04em] text-forest-950 md:text-[38px]">A focused knitting partner in the Tiruppur textile ecosystem.</h2>
-                <p className="relative mt-3 text-sm leading-6 text-forest-600">Our imported knitting division is built around ten Pailung circular knitting machines across seven diameters, supporting smooth, textured, fleece and stretch-enabled constructions.</p>
-                <p className="relative mt-2 text-sm leading-6 text-forest-600">Each enquiry connects yarn, GSM, width, stretch and quantity to a practical machine configuration.</p>
-                <Link href="/about" className="relative mt-4 inline-flex w-fit items-center gap-2 rounded-full bg-forest-950 px-4 py-2.5 text-xs font-bold text-white shadow-[0_10px_24px_rgba(8,35,24,.18)] transition duration-300 hover:-translate-y-1 hover:bg-leaf-700">Learn more about RMS <ArrowRight size={15} /></Link>
-              </div>
-              <figure className="relative min-h-[260px] overflow-hidden border-t border-white/50 bg-forest-100 lg:min-h-[330px] lg:border-l lg:border-t-0 [transform:translateZ(14px)]">
-                <Image src="/fabric-swatches.webp" alt="Visual representation of multiple knitted fabric structures" fill sizes="(max-width: 1024px) 100vw, 55vw" className="object-cover transition-transform duration-700 group-hover:scale-[1.035]" />
-                <div className="absolute inset-0 bg-gradient-to-t from-forest-950/55 via-transparent to-white/5" />
-                <figcaption className="absolute bottom-4 left-4 rounded-full border border-white/20 bg-forest-950/85 px-3 py-2 text-[10px] font-bold uppercase tracking-[.14em] text-leaf-200 backdrop-blur">Visual representation of fabric capability</figcaption>
-              </figure>
-            </div>
-          </TiltCard>
+      <section
+  id="overview"
+  className="container-pad py-8 md:py-10"
+>
+  <div
+    className="
+      grid
+      items-center
+      gap-7
+      lg:grid-cols-[0.95fr_1.05fr]
+      lg:gap-10
+      xl:gap-12
+    "
+  >
+    {/* LEFT CONTENT — STATIC */}
+    <div className="relative">
+      <span
+        className="
+          text-[10px]
+          font-bold
+          uppercase
+          tracking-[.22em]
+          text-leaf-700
+        "
+      >
+        RMS Textile Mills
+      </span>
+
+      <h2
+        className="
+          mt-2.5
+          max-w-[620px]
+          font-display
+          text-3xl
+          font-bold
+          leading-tight
+          tracking-[-.04em]
+          text-green-950
+
+          md:text-[38px]
+          lg:text-[40px]
+        "
+      >
+        A focused knitting partner in the Tiruppur textile ecosystem.
+      </h2>
+
+      <p
+        className="
+          mt-3
+          max-w-[590px]
+          text-sm
+          leading-6
+          text-forest-600
+        "
+      >
+        Our imported knitting division is built around ten Pailung circular
+        knitting machines across seven diameters, supporting smooth, textured,
+        fleece and stretch-enabled constructions.
+      </p>
+
+      <p
+        className="
+          mt-2
+          max-w-[570px]
+          text-sm
+          leading-6
+          text-forest-600
+        "
+      >
+        Each enquiry connects yarn, GSM, width, stretch and quantity to a
+        practical machine configuration.
+      </p>
+
+      <Link
+        href="/about"
+        className="
+          group
+          mt-4
+          inline-flex
+          w-fit
+          items-center
+          gap-2
+          rounded-full
+          bg-forest-950
+          px-4
+          py-2.5
+          text-xs
+          font-bold
+          text-white
+          shadow-[0_10px_24px_rgba(8,35,24,.18)]
+          transition-colors
+          duration-300
+
+          hover:bg-leaf-700
+        "
+      >
+        Learn more about RMS
+
+        <ArrowRight
+          size={15}
+          className="
+            transition-transform
+            duration-300
+            group-hover:translate-x-1
+          "
+        />
+      </Link>
+    </div>
+
+    {/* RIGHT IMAGE — ONLY THIS CARD HAS ANIMATION */}
+    <div
+      className="
+        relative
+        mx-auto
+        w-full
+        max-w-[650px]
+        [perspective:1400px]
+      "
+    >
+      {/* BACK LAYER */}
+      <div
+        className="
+          pointer-events-none
+          absolute
+          -bottom-3
+          left-6
+          right-6
+          top-5
+          rounded-[28px_28px_70px_28px]
+          bg-leaf-200/65
+          shadow-[0_20px_45px_rgba(16,55,37,.10)]
+
+          sm:rounded-[32px_32px_90px_32px]
+        "
+      />
+
+      <TiltCard
+        className="
+          group
+          relative
+          z-10
+          overflow-hidden
+          rounded-[26px_26px_70px_26px]
+          bg-forest-100
+          shadow-[0_22px_55px_rgba(15,50,34,.16)]
+          [transform-style:preserve-3d]
+
+          sm:rounded-[30px_30px_90px_30px]
+        "
+      >
+        <div
+          className="
+            relative
+            h-[250px]
+            overflow-hidden
+
+            sm:h-[280px]
+            md:h-[300px]
+            lg:h-[320px]
+          "
+        >
+          <Image
+            src="https://res.cloudinary.com/ddpfxvydm/image/upload/v1788855359/2149305951_dpkjxx.jpg"
+            alt="Visual representation of multiple knitted fabric structures"
+            fill
+            sizes="
+              (max-width: 1024px) 100vw,
+              52vw
+            "
+            className="
+              object-cover
+              object-center
+              transition-transform
+              duration-700
+              ease-out
+
+              group-hover:scale-[1.035]
+            "
+          />
+
+          {/* SIMPLE IMAGE SHADE ONLY */}
+          <div
+            className="
+              pointer-events-none
+              absolute
+              inset-0
+              bg-gradient-to-t
+              from-forest-950/20
+              via-transparent
+              to-transparent
+            "
+          />
         </div>
-      </section>
+      </TiltCard>
+    </div>
+  </div>
+</section>
 
       {/* Pathways â€” interactive mouse-tilt 3D cards with a moving glare */}
       <section className="container-pad pb-8 md:pb-12">
@@ -147,37 +322,587 @@ export default function HomeClient() {
       </section>
 
       {/* Fabrics â€” flip cards: front shows the icon, back reveals the description */}
-      <section className="bg-forest-950 py-8 text-white md:py-12">
-        <div className="container-pad">
-          <div className="grid items-end gap-4 md:grid-cols-[1fr_.8fr]"><div><span className="text-xs font-bold uppercase tracking-[.2em] text-leaf-300">What we knit</span><h2 className="mt-3 font-display text-3xl font-bold tracking-tight md:text-4xl">Six structures. Different garment directions.</h2></div><div><p className="leading-6 text-forest-400">The listed range covers foundational, pattern-led, breathable, textured, fleece and stretch-enabled circular knits.</p><Link href="/products" className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-leaf-300">Explore all fabrics <ArrowRight size={16} /></Link><p className="mt-4 text-xs font-semibold uppercase tracking-[.16em] text-white/30">Hover a card to flip it</p></div></div>
-          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {fabrics.map((fabric, index) => {
-              const Icon = fabric.icon;
-              return (
-                <div key={fabric.name} className="group h-44 [perspective:1200px]">
-                  <div className="relative h-full w-full transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-                    {/* Front face */}
-                    <div className="absolute inset-0 flex flex-col justify-between rounded-2xl border border-white/10 bg-white/[0.03] p-3.5 [backface-visibility:hidden]">
-                      <div className="flex items-center justify-between">
-                        <div className="grid size-10 place-items-center rounded-xl bg-leaf-400/10 text-leaf-300">
-                          <Icon size={20} />
-                        </div>
-                        <span className="font-display text-sm font-bold text-white/20">0{index + 1}</span>
-                      </div>
-                      <h3 className="font-display text-xl font-bold">{fabric.name}</h3>
-                    </div>
-                    {/* Back face */}
-                    <div className="absolute inset-0 flex flex-col justify-center rounded-2xl border border-leaf-400/30 bg-gradient-to-br from-leaf-700 to-forest-900 p-3.5 [backface-visibility:hidden] [transform:rotateY(180deg)]">
-                      <h3 className="font-display text-lg font-bold text-white">{fabric.name}</h3>
-                      <p className="mt-2 text-sm leading-6 text-leaf-100/90">{fabric.short}</p>
+     <section
+  className="
+    relative
+    overflow-hidden
+    bg-forest-950
+    py-10
+    text-white
+
+    md:py-14
+  "
+>
+  {/* BACKGROUND DECORATION */}
+  <div
+    className="
+      pointer-events-none
+      absolute
+      -left-40
+      top-20
+      h-[380px]
+      w-[380px]
+      rounded-full
+      bg-leaf-700/10
+      blur-[120px]
+    "
+  />
+
+  <div
+    className="
+      pointer-events-none
+      absolute
+      -right-40
+      bottom-0
+      h-[420px]
+      w-[420px]
+      rounded-full
+      bg-leaf-400/5
+      blur-[130px]
+    "
+  />
+
+  <div className="container-pad relative">
+    {/* ====================================================== */}
+    {/* SECTION HEADING */}
+    {/* ====================================================== */}
+
+    <div
+      className="
+        grid
+        items-end
+        gap-6
+
+        md:grid-cols-[1.1fr_.75fr]
+        md:gap-10
+      "
+    >
+      <div>
+        <div className="flex items-center gap-3">
+          <span
+            className="
+              h-px
+              w-7
+              bg-leaf-400
+            "
+          />
+
+          <span
+            className="
+              text-[10px]
+              font-bold
+              uppercase
+              tracking-[.22em]
+              text-leaf-300
+
+              sm:text-xs
+            "
+          >
+            What we knit
+          </span>
+        </div>
+
+        <h2
+          className="
+            mt-3
+            max-w-[680px]
+            font-display
+            text-3xl
+            font-bold
+            leading-[1.08]
+            tracking-[-.035em]
+            text-white
+
+            md:text-4xl
+            lg:text-[42px]
+          "
+        >
+          Six structures.
+          <span className="text-leaf-300">
+            {" "}
+            Different garment directions.
+          </span>
+        </h2>
+      </div>
+
+      <div>
+        <p
+          className="
+            max-w-[520px]
+            text-sm
+            leading-6
+            text-forest-300
+
+            md:text-[15px]
+          "
+        >
+          The listed range covers foundational, pattern-led, breathable,
+          textured, fleece and stretch-enabled circular knits.
+        </p>
+
+        <div className="mt-4 flex flex-wrap items-center gap-5">
+          <Link
+            href="/products"
+            className="
+              group
+              inline-flex
+              items-center
+              gap-2
+              text-sm
+              font-bold
+              text-leaf-300
+              transition-colors
+              duration-300
+
+              hover:text-white
+            "
+          >
+            Explore all fabrics
+
+            <ArrowRight
+              size={16}
+              className="
+                transition-transform
+                duration-300
+                group-hover:translate-x-1
+              "
+            />
+          </Link>
+
+          <div
+            className="
+              flex
+              items-center
+              gap-2
+              text-[10px]
+              font-semibold
+              uppercase
+              tracking-[.14em]
+              text-white/35
+            "
+          >
+            <span>↻</span>
+            Hover to explore
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* ====================================================== */}
+    {/* FABRIC CARDS */}
+    {/* ====================================================== */}
+
+    <div
+      className="
+        mt-8
+        grid
+        gap-4
+
+        sm:grid-cols-2
+        lg:grid-cols-3
+      "
+    >
+      {fabrics.map((fabric, index) => {
+        const Icon = fabric.icon;
+
+        const emojis = ["🧶", "🪡", "🧵", "✦", "◌", "✧"];
+
+        return (
+          <div
+            key={fabric.name}
+            className="
+              group
+              h-[215px]
+
+              sm:h-[225px]
+
+              [perspective:1400px]
+            "
+          >
+            {/* FLIPPING AREA */}
+            <div
+              className="
+                relative
+                h-full
+                w-full
+                transition-transform
+                duration-700
+                ease-[cubic-bezier(.2,.7,.2,1)]
+
+                [transform-style:preserve-3d]
+
+                group-hover:[transform:rotateY(180deg)]
+              "
+            >
+              {/* ================================================== */}
+              {/* FRONT FACE */}
+              {/* ================================================== */}
+
+              <div
+                className="
+                  absolute
+                  inset-0
+                  overflow-hidden
+                  rounded-[24px]
+                  border
+                  border-white/[0.09]
+                  bg-gradient-to-br
+                  from-white/[0.075]
+                  via-white/[0.035]
+                  to-white/[0.015]
+                  p-5
+                  shadow-[0_20px_50px_rgba(0,0,0,.16)]
+                  backdrop-blur-sm
+
+                  [backface-visibility:hidden]
+                "
+              >
+                {/* DECORATIVE GLOW */}
+                <div
+                  className="
+                    pointer-events-none
+                    absolute
+                    -right-16
+                    -top-16
+                    h-44
+                    w-44
+                    rounded-full
+                    bg-leaf-400/10
+                    blur-3xl
+                    transition
+                    duration-500
+
+                    group-hover:scale-125
+                  "
+                />
+
+                {/* FABRIC-LIKE CIRCLES */}
+                <div
+                  className="
+                    pointer-events-none
+                    absolute
+                    -bottom-16
+                    -right-12
+                    h-36
+                    w-36
+                    rounded-full
+                    border
+                    border-white/[0.04]
+                  "
+                />
+
+                <div
+                  className="
+                    pointer-events-none
+                    absolute
+                    -bottom-10
+                    -right-6
+                    h-24
+                    w-24
+                    rounded-full
+                    border
+                    border-leaf-300/[0.08]
+                  "
+                />
+
+                {/* TOP */}
+                <div className="relative flex items-start justify-between">
+                  {/* ICON */}
+                  <div
+                    className="
+                      relative
+                      grid
+                      size-12
+                      place-items-center
+                      overflow-hidden
+                      rounded-[15px]
+                      border
+                      border-leaf-300/10
+                      bg-leaf-400/[0.08]
+                      text-leaf-300
+                      shadow-[inset_0_1px_0_rgba(255,255,255,.05)]
+                    "
+                  >
+                    <Icon size={22} />
+
+                    <span
+                      className="
+                        pointer-events-none
+                        absolute
+                        -bottom-3
+                        -right-2
+                        text-2xl
+                        opacity-[0.08]
+                      "
+                    >
+                      {emojis[index % emojis.length]}
+                    </span>
+                  </div>
+
+                  {/* NUMBER */}
+                  <div className="text-right">
+                    <span
+                      className="
+                        font-display
+                        text-[11px]
+                        font-bold
+                        uppercase
+                        tracking-[.15em]
+                        text-white/25
+                      "
+                    >
+                      Structure
+                    </span>
+
+                    <span
+                      className="
+                        mt-0.5
+                        block
+                        font-display
+                        text-lg
+                        font-bold
+                        text-white/20
+                      "
+                    >
+                      0{index + 1}
+                    </span>
+                  </div>
+                </div>
+
+                {/* BOTTOM */}
+                <div className="absolute bottom-5 left-5 right-5">
+                  <div
+                    className="
+                      mb-2
+                      flex
+                      items-center
+                      gap-2
+                    "
+                  >
+                    <span
+                      className="
+                        rounded-full
+                        border
+                        border-leaf-300/10
+                        bg-leaf-400/[0.06]
+                        px-2.5
+                        py-1
+                        text-[8px]
+                        font-bold
+                        uppercase
+                        tracking-[.14em]
+                        text-leaf-300
+                      "
+                    >
+                      Circular Knit
+                    </span>
+
+                    <span className="text-xs text-white/25">
+                      {emojis[index % emojis.length]}
+                    </span>
+                  </div>
+
+                  <div className="flex items-end justify-between gap-4">
+                    <h3
+                      className="
+                        font-display
+                        text-xl
+                        font-bold
+                        tracking-[-.02em]
+                        text-white
+
+                        sm:text-[22px]
+                      "
+                    >
+                      {fabric.name}
+                    </h3>
+
+                    {/* FLIP INDICATOR */}
+                    <div
+                      className="
+                        grid
+                        size-8
+                        shrink-0
+                        place-items-center
+                        rounded-full
+                        border
+                        border-white/10
+                        bg-white/[0.04]
+                        text-sm
+                        text-white/40
+                        transition
+                        duration-300
+
+                        group-hover:bg-leaf-400
+                        group-hover:text-forest-950
+                      "
+                    >
+                      ↗
                     </div>
                   </div>
                 </div>
-              );
-            })}
+              </div>
+
+              {/* ================================================== */}
+              {/* BACK FACE */}
+              {/* ================================================== */}
+
+              <div
+                className="
+                  absolute
+                  inset-0
+                  overflow-hidden
+                  rounded-[24px]
+                  border
+                  border-leaf-300/20
+                  bg-gradient-to-br
+                  from-leaf-700
+                  via-[#185238]
+                  to-forest-950
+                  p-5
+                  shadow-[0_22px_55px_rgba(0,0,0,.20)]
+
+                  [backface-visibility:hidden]
+                  [transform:rotateY(180deg)]
+                "
+              >
+                {/* BACKGROUND CIRCLE */}
+                <div
+                  className="
+                    pointer-events-none
+                    absolute
+                    -right-12
+                    -top-12
+                    size-40
+                    rounded-full
+                    border
+                    border-white/[0.07]
+                  "
+                />
+
+                <div
+                  className="
+                    pointer-events-none
+                    absolute
+                    -right-3
+                    -top-3
+                    size-20
+                    rounded-full
+                    bg-leaf-300/[0.06]
+                    blur-xl
+                  "
+                />
+
+                {/* TOP */}
+                <div className="relative flex items-center justify-between">
+                  <div
+                    className="
+                      grid
+                      size-10
+                      place-items-center
+                      rounded-xl
+                      bg-white/10
+                      text-leaf-200
+                    "
+                  >
+                    <Icon size={19} />
+                  </div>
+
+                  <span
+                    className="
+                      text-xl
+                      opacity-60
+                    "
+                  >
+                    {emojis[index % emojis.length]}
+                  </span>
+                </div>
+
+                {/* CONTENT */}
+                <div className="relative mt-5">
+                  <span
+                    className="
+                      text-[9px]
+                      font-bold
+                      uppercase
+                      tracking-[.18em]
+                      text-leaf-200/70
+                    "
+                  >
+                    Fabric Structure
+                  </span>
+
+                  <h3
+                    className="
+                      mt-1.5
+                      font-display
+                      text-xl
+                      font-bold
+                      text-white
+                    "
+                  >
+                    {fabric.name}
+                  </h3>
+
+                  <p
+                    className="
+                      mt-2
+                      line-clamp-3
+                      text-[13px]
+                      leading-[1.65]
+                      text-leaf-50/80
+                    "
+                  >
+                    {fabric.short}
+                  </p>
+                </div>
+
+                {/* BOTTOM */}
+                <div
+                  className="
+                    absolute
+                    bottom-5
+                    left-5
+                    right-5
+                    flex
+                    items-center
+                    justify-between
+                  "
+                >
+                  <span
+                    className="
+                      text-[9px]
+                      font-bold
+                      uppercase
+                      tracking-[.13em]
+                      text-white/45
+                    "
+                  >
+                    RMS Textile Mills
+                  </span>
+
+                  <span
+                    className="
+                      grid
+                      size-7
+                      place-items-center
+                      rounded-full
+                      bg-white/10
+                      text-xs
+                      text-white
+                    "
+                  >
+                    ←
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+        );
+      })}
+    </div>
+  </div>
+</section>
 
       <section className="container-pad py-8 md:py-12">
         <div className="grid gap-6 lg:grid-cols-[.75fr_1.25fr]">
@@ -209,7 +934,7 @@ export default function HomeClient() {
           <div className="mt-6 grid gap-3 md:grid-cols-2 lg:grid-cols-4">
             {process.map(([Icon, number, title, copy]) => (
               <div key={number} className="[perspective:1000px]">
-                <article className="group relative rounded-2xl border border-leaf-100 bg-white p-4 shadow-[0_1px_3px_rgba(15,40,30,0.05)] transition-transform duration-300 [transform-style:preserve-3d] hover:[transform:rotateX(6deg)_rotateY(-6deg)] hover:shadow-[0_32px_56px_-30px_rgba(15,60,40,0.35)]">
+                <article className="group relative min-h-[220px] rounded-2xl border border-leaf-100 bg-white p-5 shadow-[0_1px_3px_rgba(15,40,30,0.05)] transition-transform duration-300 [transform-style:preserve-3d] hover:[transform:rotateX(6deg)_rotateY(-6deg)] hover:shadow-[0_32px_56px_-30px_rgba(15,60,40,0.35)]">
                   <div className="flex items-center justify-between">
                     <div className="grid size-10 place-items-center rounded-xl bg-gradient-to-br from-leaf-600 to-forest-800 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.15)] transition-transform duration-300 group-hover:[transform:translateZ(30px)]">
                       <Icon size={20} />
@@ -229,8 +954,6 @@ export default function HomeClient() {
       <section className="container-pad pt-8 md:pt-12">
         <div className="grid overflow-hidden rounded-[22px] border border-forest-100 bg-white shadow-[0_1px_3px_rgba(15,40,30,0.05)] lg:grid-cols-[auto_1fr_auto] lg:items-center"><div className="hidden h-full min-w-20 place-items-center bg-gradient-to-br from-leaf-600 to-forest-800 text-white lg:grid"><MapPin size={27} /></div><div className="p-4 sm:p-5"><p className="text-[10px] font-bold uppercase tracking-[.18em] text-leaf-700">Located in Tiruppur</p><h2 className="mt-1.5 font-display text-2xl font-bold text-forest-950">Connected to a leading textile manufacturing ecosystem.</h2><p className="mt-1.5 max-w-3xl text-sm leading-5 text-forest-600">{address}</p></div><Link href="/contact" className="flex h-full min-h-14 items-center justify-between gap-4 bg-forest-950 px-5 text-sm font-bold text-white transition hover:bg-leaf-700">Contact RMS <ArrowRight size={17} /></Link></div>
       </section>
-
-      <CTA compact />
     </>
   );
 }
